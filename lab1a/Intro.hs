@@ -2,6 +2,7 @@ module Intro where
 
 import Prelude hiding (Maybe, Nothing, Just)
 
+
 -- Enumeration Types:
 
 data Direction = North | East | West | South
@@ -13,9 +14,9 @@ turnClockwise East = South
 turnClockwise South = West
 turnClockwise West = North
 
-
 turnAround :: Direction -> Direction
-turnAround = undefined
+turnAround = turnClockwise . turnClockwise
+
 
 -- Union Types:
 
@@ -33,7 +34,10 @@ area (Triangle a b c) = sqrt toRoot
     toRoot = p * (p - a) * (p - b) * (p - c)
 
 perimeter :: Shape -> Double
-perimeter = undefined
+perimeter (Rectangle x y) = (x + y) * 2
+perimeter (Circle r) = 2 * 3.14 * r
+perimeter (Triangle a b c) = a + b + c
+
 
 -- Recursive Types:
 
@@ -62,23 +66,27 @@ isEven (S Z) = False
 isEven (S (S x)) = isEven x
 
 isOdd :: Nat -> Bool
-isOdd = undefined
+isOdd = not . isEven
 
 mult :: Nat -> Nat -> Nat
-mult = undefined
+mult Z _ = Z
+mult (S x) y = add y (mult x y)
+
 
 -- Generic Types:
 
 data Maybe x = Just x | Nothing
+  deriving Show
 -- Wartość lub jej brak
 
 safeDivide :: Int -> Int -> Maybe Int
 safeDivide _ 0 = Nothing
 safeDivide x y = Just (x `div` y)
 
-
 addMaybe :: Maybe Int -> Maybe Int -> Maybe Int
-addMaybe = undefined
+addMaybe (Just x) (Just y) = Just (x + y)
+addMaybe _ _ = Nothing
+
 
 -- Generic, recursive types
 
@@ -103,21 +111,22 @@ myLength [] = 0
 myLength (_:xs) = 1 + myLength xs
 
 myMyLength :: MyList a -> Nat
-myMyLength = undefined
+myMyLength Nil = Z
+myMyLength (Cons _ xs) = S (myMyLength xs)
 
 myMyLengthTest :: Bool
 myMyLengthTest = myMyLength l3 == (S (S (S Z)))
 
 listToMyList :: [a] -> MyList a
-listToMyList = undefined
+listToMyList [] = Nil
+listToMyList (x:xs) = Cons x (listToMyList xs)
 
 myListToList :: MyList a -> [a]
-myListToList = undefined
-
--------------------------
+myListToList Nil = []
+myListToList (Cons s xs) = s : (myListToList xs)
 
 myFilter :: (a -> Bool) -> ([a] -> [a])
 myFilter f [] = []
-myFilter f (x:xs) = if f x then _ else _
+myFilter f (x:xs) = if f x then x : myFilter f xs else myFilter f xs
 
 -- Częściowo oparty na Moodlu przedmiotu, częściowo na rozdziale 4 z książki: Edward Brady, Type-driven development with Idris
