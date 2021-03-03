@@ -19,8 +19,8 @@ tests = [
 
     nubFold [1,2,1,3,1,2,1,4] == [1,2,3,4],
 
-    1 `elem` [5, 1, 5],
-    not $ 2 `elem` [5, 1, 5],
+    1 `elemFold` [5, 1, 5],
+    not $ 2 `elemFold` [5, 1, 5],
 
     containsabFold "ab",
     containsabFold "baaaabaa",
@@ -43,8 +43,8 @@ testsStr = [
 
     "nubFold [1,2,1,3,1,2,1,4] == [1,2,3,4]",
 
-    "1 `elem` [5, 1, 5]",
-    "not $ 2 `elem` [5, 1, 5]",
+    "1 `elemFold` [5, 1, 5]",
+    "not $ 2 `elemFold` [5, 1, 5]",
 
     "containsabFold \"ab\"",
     "containsabFold \"baaaabaa\"",

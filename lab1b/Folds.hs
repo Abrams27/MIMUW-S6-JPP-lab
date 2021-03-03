@@ -2,19 +2,22 @@ module Folds where
 
 import Prelude hiding (foldl, foldr)
 
+
 -- rozwiązanie można sprawdzić odpalając `runhaskell FoldsTest.hs`
 
 
 -- Poniższa funkcja ma działać następująco
 -- foldl f z [x1, x2, ..., zn] == (...((z `f` x_1) `f` x_2) ... `f` xn)
 foldl :: (b -> a -> b) -> b -> [a] -> b
-foldl = undefined
+foldl f start [] = start
+foldl f start (x:xs) = foldl f (start `f` x) xs
 
 
 -- Poniższa funkcja ma działać następująco:
 -- foldr f z [x1, x2, ..., xn] == x1 `f` (x2 `f` ... (xn `f` z) ... ) 
 foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr = undefined
+foldr f start [] = start
+foldr f start (x:xs) = x `f` (foldr f start xs)
 
 
 -- Wszystkie poniższe funkcje powinny wywoływać folda i od razu zwracać jego wynik
@@ -22,17 +25,18 @@ foldr = undefined
 
 -- Poniższa funkcja używa foldl, żeby policzyć długość listy
 lengthFoldl :: [a] -> Int
-lengthFoldl = foldl undefined undefined
+lengthFoldl = foldl (\ans -> \_ -> ans + 1) 0
 
 
 -- A poniższa używa foldr:
 lengthFoldr :: [a] -> Int
-lengthFoldr = foldr undefined undefined
+lengthFoldr = foldr (\_ -> \ans -> ans + 1) 0
 
 
 -- Znajdź takie
 strangeF :: Int -> Int -> Int
-strangeF = undefined
+strangeF = flip const
+
 -- żeby działało inaczej z foldemr i foldeml:
 strangeFTest :: Bool
 strangeFTest = foldl strangeF 1 [1, 2, 3] /= foldr (flip strangeF) 1 [1, 2, 3]
@@ -41,30 +45,49 @@ strangeFTest = foldl strangeF 1 [1, 2, 3] /= foldr (flip strangeF) 1 [1, 2, 3]
 
 -- Poniższa funkcja używa foldl, żeby zaimplementować reverse
 reverseFoldl :: [a] -> [a]
-reverseFoldl xs = foldl f undefined undefined
+reverseFoldl = foldl f []
   where
     f :: [a] -> a -> [a]
-    f = undefined
+    f as x = x : as
 
 
 -- A poniższa foldr:
 reverseFoldr :: [a] -> [a]
-reverseFoldr = undefined
--- Która działa szybciej?
+reverseFoldr = foldr f []
+  where
+    f :: a -> [a] -> [a]
+    f x as = as ++ [x]
 
 
 -- Poniższa fukcja używa któregoś z foldów, żeby zaimplementować nub (usuwanie powtórzeń)
 nubFold :: (Eq a) => [a] -> [a]
-nubFold = undefined
--- Podpowiedź: Przydatna może być funkcja `elem`
--- LMHTFY: https://hoogle.haskell.org/?hoogle=elem&scope=set%3Astackage
+nubFold = foldl f []
+  where
+    f :: (Eq a) => [a] -> a -> [a]
+    f as x
+      | x `elem` as = as
+      | otherwise = as ++ [x]
 
 
 -- Poniższa funkcja używa któregoś z foldów, żeby zaimplementować elem :)
 elemFold :: (Eq a) => a -> [a] -> Bool
-elemFold e = undefined
+elemFold e = foldl (\result -> \act -> result || act == e) False
 
 
 -- Poniższa funkcja używa któregoś z foldów, żeby sprawdzić czy dane słowo zawiera "ab" jako podsłowo
 containsabFold :: String -> Bool
-containsabFold = undefined
+containsabFold = toBool . foldl consumeChar Start
+
+data State = Start | SeenA | Ok
+
+toBool :: State -> Bool
+toBool Ok = True
+toBool _ = False
+
+consumeChar :: State -> Char -> State
+consumeChar Start 'a' = SeenA
+consumeChar Start _ = Start
+consumeChar SeenA 'b' = Ok
+consumeChar SeenA 'a' = SeenA
+consumeChar SeenA _ = Start
+consumeChar Ok _ = Ok
