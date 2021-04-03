@@ -1,4 +1,4 @@
-import BST
+import           BST
 
 a = Empty
 b = fromList [4, 3, 2, 5, 7, 12, 1, 34]

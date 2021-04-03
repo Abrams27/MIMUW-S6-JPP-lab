@@ -1,7 +1,7 @@
 module OrderedList(OrderedList, fromList, toList, insert, remove) where
 
-import qualified Data.List as L
-import Debug.Trace
+import qualified Data.List   as L
+import           Debug.Trace
 
 
 newtype OrderedList a = OL [a]

@@ -1,8 +1,8 @@
-module FoldsChecker where
+module FoldsTests where
 
-import Prelude hiding (foldl, foldr)
+import           Prelude hiding (foldl, foldr)
 
-import Folds
+import           Folds
 
 tests :: [Bool]
 tests = [
@@ -27,7 +27,7 @@ tests = [
     not $ containsabFold "baaaaaa",
     containsabFold "ccadabcda",
     not $ containsabFold "accccb"]
-    
+
 testsStr :: [String]
 testsStr = [
     "foldr (^) 2 [1, 2, 3] == 1",
@@ -51,12 +51,12 @@ testsStr = [
     "not $ containsabFold \"baaaaaa\"",
     "containsabFold \"ccadabcda\"",
     "not $ containsabFold \"accccb\""]
-    
+
 testsWrong :: [String]
 testsWrong = map snd $ filter (not . fst) $ zip tests testsStr
-    
+
 
 main :: IO ()
-main = if not $ null testsWrong then 
-    putStrLn "The following tests failed:" >> mapM_ putStrLn testsWrong 
-    else putStrLn "OK" 
+main = if not $ null testsWrong then
+    putStrLn "The following tests failed:" >> mapM_ putStrLn testsWrong
+    else putStrLn "OK"

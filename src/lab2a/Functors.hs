@@ -1,6 +1,7 @@
 module Functors where
 
-import Prelude hiding (Functor, fmap, Maybe, Nothing, Just, map, (<$>))
+import           Prelude hiding (Functor, Just, Maybe, Nothing, fmap, map,
+                          (<$>))
 
 -- Wiemy, już że każdą funkcję
 
@@ -18,7 +19,7 @@ import Prelude hiding (Functor, fmap, Maybe, Nothing, Just, map, (<$>))
 -- Na rozgrzewkę napiszmy  tę definicję
 
 map :: (a -> b) -> [a] -> [b] -- drugie nawiasy można zwykle pominąć
-map f [] = []
+map f []     = []
 map f (x:xs) = f x : map f xs
 
 
@@ -29,7 +30,7 @@ class Functor f where
     fmap :: (a -> b) -> (f a -> f b)
     -- dodadkowo zakładamy, że
     -- fmap f . fmap g = fmap (f . g)
-    
+
 instance Functor [] where
     fmap = map
 
@@ -42,7 +43,7 @@ data Maybe a = Nothing | Just a
 
 instance Functor Maybe where
     fmap _ Nothing = Nothing
-    fmap f Just x = Just $ f x
+    fmap f Just x  = Just $ f x
 
 
 -- O liście [a] można myśleć jak o specjanym przypadku (częściowej) funkcji
@@ -74,9 +75,9 @@ data Tree a = Empty | Node (Tree a) a (Tree a)
 -- Drzewo też jest funktorem
 
 instance Functor Tree where
-    fmap f Empty = Empty
+    fmap f Empty        = Empty
     fmap f (Node l v r) = Node (fmap f l) (f v) (fmap f r)
-    
+
 -- Praktyczny aspekt funtorów jest taki, że w prelude zdefiniowane jest
 
 (<$>) = fmap
@@ -84,7 +85,7 @@ instance Functor Tree where
 -- W związku z tym, żeby napisać funkcję
 
 mul2Maybe :: Maybe Int -> Maybe Int
-mul2Maybe Nothing = Nothing
+mul2Maybe Nothing  = Nothing
 mul2Maybe (Just x) = Just (2*x)
 
 -- wystarczy napisać
@@ -93,4 +94,4 @@ mul2Maybe' x = (2*) <$> x
 
 -- albo, w tym przypadku
 
-mul2Maybe'' = fmap (2*) 
+mul2Maybe'' = fmap (2*)

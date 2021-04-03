@@ -54,7 +54,7 @@ simplify (EMul (EInt 0) x) = EInt 0
 simplify (EAdd x y)        = simplifyOnce $ simplify x + simplify y
 simplify (ESub x y)        = simplifyOnce $ simplify x - simplify y
 simplify (EMul x y)        = simplifyOnce $ simplify x * simplify y
-simplify x = x
+simplify x                 = x
 
 simplifyOnce :: Exp -> Exp
 simplifyOnce (EAdd 0 x)               = x

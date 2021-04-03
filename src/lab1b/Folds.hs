@@ -1,6 +1,6 @@
-module Folds where 
+module Folds where
 
-import Prelude hiding (foldl, foldr)
+import           Prelude hiding (foldl, foldr)
 
 
 -- rozwiązanie można sprawdzić odpalając `runhaskell FoldsTest.hs`
@@ -9,14 +9,14 @@ import Prelude hiding (foldl, foldr)
 -- Poniższa funkcja ma działać następująco
 -- foldl f z [x1, x2, ..., zn] == (...((z `f` x_1) `f` x_2) ... `f` xn)
 foldl :: (b -> a -> b) -> b -> [a] -> b
-foldl f start [] = start
+foldl f start []     = start
 foldl f start (x:xs) = foldl f (start `f` x) xs
 
 
 -- Poniższa funkcja ma działać następująco:
--- foldr f z [x1, x2, ..., xn] == x1 `f` (x2 `f` ... (xn `f` z) ... ) 
+-- foldr f z [x1, x2, ..., xn] == x1 `f` (x2 `f` ... (xn `f` z) ... )
 foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr f start [] = start
+foldr f start []     = start
 foldr f start (x:xs) = x `f` (foldr f start xs)
 
 
@@ -82,12 +82,12 @@ data State = Start | SeenA | Ok
 
 toBool :: State -> Bool
 toBool Ok = True
-toBool _ = False
+toBool _  = False
 
 consumeChar :: State -> Char -> State
 consumeChar Start 'a' = SeenA
-consumeChar Start _ = Start
+consumeChar Start _   = Start
 consumeChar SeenA 'b' = Ok
 consumeChar SeenA 'a' = SeenA
-consumeChar SeenA _ = Start
-consumeChar Ok _ = Ok
+consumeChar SeenA _   = Start
+consumeChar Ok _      = Ok

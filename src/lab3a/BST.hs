@@ -7,7 +7,7 @@ data BST a = Empty
 -- Napisać własne instancje Show i Eq
 
 instance Show a => Show (BST a) where
-  show Empty = "null"
+  show Empty                 = "null"
   show (Node left val right) = show (left, val, right)
 
 
@@ -47,8 +47,8 @@ member :: (Ord a) => BST a -> a -> Bool
 member Empty                         _             = False
 member (Node leftTree val rightTree) searchedValue
   | searchedValue > val                            = member rightTree searchedValue
-  | searchedValue < val                            = member leftTree searchedValue 
-  | otherwise                                      = True 
+  | searchedValue < val                            = member leftTree searchedValue
+  | otherwise                                      = True
 
 
 remove :: (Ord a) => BST a -> a -> BST a

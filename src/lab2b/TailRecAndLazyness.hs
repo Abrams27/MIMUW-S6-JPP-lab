@@ -1,6 +1,6 @@
 module TailRecAndLazyness where
 
-import Prelude hiding (take, reverse)
+import           Prelude hiding (reverse, take)
 
 
 ----------------------
@@ -22,14 +22,14 @@ tailFact n = tailFactAux 1 n
 
 
 myReverse :: [a] -> [a]
-myReverse [] = []
+myReverse []     = []
 myReverse (x:xs) = myReverse xs ++ [x]
 
 
 myReverseTail :: [a] -> [a]
 myReverseTail l = myReverseTailAux [] l
   where
-    myReverseTailAux acc [] = acc
+    myReverseTailAux acc []     = acc
     myReverseTailAux acc (x:xs) = myReverseTailAux (x:acc) xs
 
 

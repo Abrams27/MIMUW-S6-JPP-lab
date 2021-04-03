@@ -1,4 +1,4 @@
-import Text.Read
+import           Text.Read
 
 
 main = do

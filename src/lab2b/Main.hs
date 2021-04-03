@@ -34,8 +34,8 @@ f7 :: String -> String
 f7 = unlines . id2 . lines
   where
     id2 :: [a] -> [a]
-    id2 [] = []
-    id2 [x] = [x]
+    id2 []             = []
+    id2 [x]            = [x]
     id2 (x1 : x2 : xs) = x1 : x2 : id2 xs
 
 -- 8) Zadanie 8 z moodla (ignorując newline'y z wejścia)
@@ -54,9 +54,9 @@ splitInput maxSize input = addLine $ foldl addWord ([], []) $ concat $ map (spli
     addWord (currentLine, allLines) nextWord
         | length (unwords $ nextWord : currentLine) <= maxSize = (currentLine ++ [nextWord], allLines)
         | otherwise = ([nextWord], addLine (currentLine, allLines))
-      
+
     addLine :: ([String], [[String]]) -> [[String]]
-    addLine ([], allLines) = allLines
+    addLine ([], allLines)          = allLines
     addLine (currentLine, allLines) = allLines ++ [currentLine]
 
     splitString :: Int -> String -> [String]
@@ -66,7 +66,7 @@ splitInput maxSize input = addLine $ foldl addWord ([], []) $ concat $ map (spli
 
 splitString :: Int -> String -> [String]
 splitString maxSize [] = []
-splitString maxSize s = take maxSize s : (splitString maxSize $ drop maxSize s)
+splitString maxSize s  = take maxSize s : (splitString maxSize $ drop maxSize s)
 
 
 main :: IO ()

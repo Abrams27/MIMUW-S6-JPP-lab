@@ -18,8 +18,8 @@ concatFoldr list = foldr (++) [] list
 
 
 nubFilter :: (Eq a) => [a] -> [a]
-nubFilter [] = []
-nubFilter (x:xs)  = x : filter (/= x) (nubFilter xs)
+nubFilter []     = []
+nubFilter (x:xs) = x : filter (/= x) (nubFilter xs)
 
 
 scalarProduct :: [Int] -> [Int] -> Int

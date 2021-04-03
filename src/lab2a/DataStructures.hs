@@ -17,17 +17,17 @@ makeEmptyStack = Stack []
 
 
 topS :: Stack a -> Maybe a
-topS (Stack []) = Nothing
+topS (Stack [])     = Nothing
 topS (Stack (x:xs)) = Just x
 
 
 nullS :: Stack a -> Bool
 nullS (Stack []) = True
-nullS _ = False
+nullS _          = False
 
 
 popS :: Stack a -> Stack a
-popS (Stack []) = Stack []
+popS (Stack [])     = Stack []
 popS (Stack (x:xs)) = Stack xs
 
 
@@ -38,7 +38,7 @@ pushS (Stack old) elem = Stack (elem:old)
 -- Dla chętnych: kolejka za pomocą dwóch stosów
 
 data Queue a = Queue {
-  qIn :: Stack a,
+  qIn  :: Stack a,
   qOut :: Stack a
   }
 
@@ -137,9 +137,9 @@ t3 = (+1) <$> Nothing
 
 f :: String -> Int
 f "Jeden" = 1
-f "Dwa" = 2
-f "Trzy" = 3
-f _ = 0
+f "Dwa"   = 2
+f "Trzy"  = 3
+f _       = 0
 
 t4 = (+1) <$> f
 
